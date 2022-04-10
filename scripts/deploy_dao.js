@@ -26,6 +26,9 @@ async function main() {
 
   await gov.deployed();
 
+  //   转移owner权限给gov
+  await treasury.transferOwnership(gov.address);
+
   const transferCalldata = treasury.interface.encodeFunctionData("withdraw");
 
   // 提案， 管理员withdraw
@@ -35,6 +38,10 @@ async function main() {
     [transferCalldata],
     "Proposal #1: admin withdaw"
   );
+
+  // 执行提案
+  const descriptionHash = ethers.utils.id("Proposal #1: admin withdaw");
+  await gov.execute([tokenAddress], [0], [transferCalldata], descriptionHash);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
