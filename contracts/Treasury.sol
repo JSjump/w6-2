@@ -36,7 +36,7 @@ contract Treasury is ERC20, ERC20Permit, ERC20Votes, Ownable {
         super._burn(account, amount);
     }
 
-    function withdraw(uint amount_) external {
+    function withdraw(uint amount_) external onlyOwner{
         IERC20(this).transfer(this.owner(), amount_);
     }
 
